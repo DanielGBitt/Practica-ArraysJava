@@ -11,7 +11,9 @@ public class practicaCRUD {
         byte contadorLoop = 0;
         byte opcionSalidaRegistro = 0;
 
-        String codigoVideoJuego = "";
+        int contadorVideoJuegos = 0;
+
+        String codigo = "";
 
         boolean exit = false;
         Scanner in = new Scanner(System.in);
@@ -27,6 +29,7 @@ public class practicaCRUD {
         } while (capacidad <= 0);
 
         String[] nombreVideoJuego = new String[capacidad];
+        String[] codigoVideoJuego = new String[capacidad];
 
         do {
             System.out.println("""
@@ -47,29 +50,53 @@ public class practicaCRUD {
 
             switch (opcion) {
                 case 1:
+                    System.out.println("----------------------------------");
+                    System.out.println("Posicion " + contadorVideoJuegos);
+                    System.out.println("Capacidad de registro " + capacidad);
+                    System.out.println("----------------------------------");
                     contadorLoop = capacidad;
 
                     for (int i = 0; i <= contadorLoop - 1; i++) {
-                        System.out.println("Ingrese nombre del videojuego");
-                        nombreVideoJuego[i] = in.nextLine();
-                        System.out.println("Ahora codigo");
-                        codigoVideoJuego[i] = in.nextLine();
-                        System.out.println("""
-                                    ¿Quieres volver al menu principal??
-                                    1) SI
-                                    2) NO
-                                """);
 
-                        opcionSalidaRegistro = in.nextByte();
-                        in.nextLine();
+                        if (contadorVideoJuegos >= capacidad) {
+                            System.out.println("Alcanzaste el maximo de registro permitido!!");
+                        } else {
+                            //INGRESAMOS CAMPOS
+                            System.out.println("Ingrese nombre del videojuego");
+                            nombreVideoJuego[contadorVideoJuegos] = in.nextLine();
+                            System.out.println("Ahora codigo");
+                            codigoVideoJuego[contadorVideoJuegos] = in.nextLine();
+                            System.out.println("Videojuego registrado exitosamente!\n");
+                            //CONTADOR VIDEOJUEGOS
+                            contadorVideoJuegos += 1;
 
-                        switch (opcionSalidaRegistro) {
-                            case 1:
-                                contadorLoop = 1;
-                                break;
-                            case 2:
-                                contadorLoop = capacidad;
+
+                            if (contadorVideoJuegos >= capacidad) {
+                                System.out.println("Alcanzaste el maximo de registro permitido!!");
+                            } else {
+                                //MENU
+                                System.out.println("""
+                                            ¿Quieres volver al menu principal??
+                                            1) SI
+                                            2) NO
+                                        """);
+
+                                opcionSalidaRegistro = in.nextByte();
+                                in.nextLine();
+
+                                switch (opcionSalidaRegistro) {
+                                    case 1:
+                                        contadorLoop = 1;
+                                        break;
+                                    case 2:
+                                        contadorLoop = capacidad;
+                                }
+                            }
+
+
                         }
+
+
                     }
 
                     break;
@@ -77,17 +104,72 @@ public class practicaCRUD {
 
                 case 2:
 
-                    if (capacidad == 0) {
+                    if (contadorVideoJuegos == 0) {
                         System.out.println("No hay videojuegos que mostrar!!");
                     } else {
                         System.out.println("Listado de videojuegos");
+                        System.out.println("--------------------------------");
+                        System.out.println("Video juegos registrados: " + contadorVideoJuegos);
+                        System.out.println("Filas vacias " + (capacidad - contadorVideoJuegos));
                         System.out.println("-------------------------");
-                        for (int i = 0; i <= capacidad - 1; i++) {
+                        for (int i = 0; i <= contadorVideoJuegos - 1; i++) {
                             System.out.println("NOMBRE\t\t || CODIGO");
-                            System.out.println("--" + nombreVideoJuego[i]);
+                            System.out.println(nombreVideoJuego[i] + "\t\t||\t\t" + codigoVideoJuego[i]);
                         }
                         System.out.println("-------------------------");
                     }
+
+                    break;
+
+
+                case 3:
+                    System.out.println("Busca por Codigo");
+                    codigo = in.nextLine();
+
+                    System.out.println("------------------------------------------");
+                    for (int i = 0; i <= contadorVideoJuegos - 1; i++) {
+                        if (codigoVideoJuego[i].equalsIgnoreCase(codigo)) {
+                            System.out.println("El video juego que buscas es: " + nombreVideoJuego[i]);
+                        }
+                    }
+                    System.out.println("------------------------------------------");
+
+                    break;
+
+
+                case 4:
+
+                    System.out.println("Ingresa el codigo del videojuego que quieres actualizar");
+                    codigo = in.nextLine();
+
+                    for (int i = 0; i <= contadorVideoJuegos - 1; i++) {
+                        if (codigoVideoJuego[i].equalsIgnoreCase(codigo)) {
+                            System.out.println("Ingresa el nuevo nombre a modificar");
+                            nombreVideoJuego[i] = in.nextLine();
+
+                            System.out.println("Juego actualizado exitosamente!!");
+
+                        } else {
+                            System.out.println("No existe un juego con ese ID");
+                        }
+                    }
+
+
+                    break;
+
+                case 5:
+                    System.out.println("Ingresa el codigo del videojuego que quieres eliminar");
+                    codigo = in.nextLine();
+                    for (int i = 0; i <= contadorVideoJuegos - 1; i++) {
+                        if (codigoVideoJuego[i].equalsIgnoreCase(codigo)) {
+                            nombreVideoJuego[i] = nombreVideoJuego[i + 1];
+                            codigoVideoJuego[i] = codigoVideoJuego[i + 1];
+                        }else {
+                            System.out.println("No existe un juego con ese ID");
+                        }
+                    }
+                    contadorVideoJuegos --;
+                    System.out.println("Juego eliminado exitosamente");
 
                     break;
 
@@ -102,6 +184,7 @@ public class practicaCRUD {
 
     }
 }
+
 
 /*
 CRUD - TIENDA DE VIDEOJUEGOS
