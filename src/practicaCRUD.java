@@ -12,6 +12,7 @@ public class practicaCRUD {
         byte opcionSalidaRegistro = 0;
 
         int contadorVideoJuegos = 0;
+        int indice = 0;
 
         String codigo = "";
 
@@ -162,12 +163,11 @@ public class practicaCRUD {
                     codigo = in.nextLine();
                     for (int i = 0; i <= contadorVideoJuegos - 1; i++) {
                         if (codigoVideoJuego[i].equalsIgnoreCase(codigo)) {
-                            nombreVideoJuego[i] = nombreVideoJuego[i + 1];
-                            codigoVideoJuego[i] = codigoVideoJuego[i + 1];
-                        }else {
-                            System.out.println("No existe un juego con ese ID");
+                            indice = i;
                         }
                     }
+
+
                     contadorVideoJuegos --;
                     System.out.println("Juego eliminado exitosamente");
 
