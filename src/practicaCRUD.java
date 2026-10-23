@@ -12,7 +12,7 @@ public class practicaCRUD {
         byte opcionSalidaRegistro = 0;
 
         int contadorVideoJuegos = 0;
-        int indice = 0;
+        int indiceEncontrado = -1;
 
         String codigo = "";
 
@@ -140,18 +140,22 @@ public class practicaCRUD {
 
                 case 4:
 
-                    System.out.println("Ingresa el codigo del videojuego que quieres actualizar");
-                    codigo = in.nextLine();
+                    if (contadorVideoJuegos == 0) {
+                        System.out.println("Aun no haz ingresado ningun juego!!");
+                    } else {
+                        System.out.println("Ingresa el codigo del videojuego que quieres actualizar");
+                        codigo = in.nextLine();
 
-                    for (int i = 0; i <= contadorVideoJuegos - 1; i++) {
-                        if (codigoVideoJuego[i].equalsIgnoreCase(codigo)) {
-                            System.out.println("Ingresa el nuevo nombre a modificar");
-                            nombreVideoJuego[i] = in.nextLine();
+                        for (int i = 0; i <= contadorVideoJuegos - 1; i++) {
+                            if (codigoVideoJuego[i].equalsIgnoreCase(codigo)) {
+                                System.out.println("Ingresa el nuevo nombre a modificar");
+                                nombreVideoJuego[i] = in.nextLine();
 
-                            System.out.println("Juego actualizado exitosamente!!");
+                                System.out.println("Juego actualizado exitosamente!!");
 
-                        } else {
-                            System.out.println("No existe un juego con ese ID");
+                            } else {
+                                System.out.println("No existe un juego con ese ID");
+                            }
                         }
                     }
 
@@ -159,17 +163,31 @@ public class practicaCRUD {
                     break;
 
                 case 5:
-                    System.out.println("Ingresa el codigo del videojuego que quieres eliminar");
-                    codigo = in.nextLine();
-                    for (int i = 0; i <= contadorVideoJuegos - 1; i++) {
-                        if (codigoVideoJuego[i].equalsIgnoreCase(codigo)) {
-                            indice = i;
+
+                    if (contadorVideoJuegos == 0) {
+                        System.out.println("No hay juegos registrados, ingrese alguno para continuar");
+                    } else {
+                        System.out.println("Ingresa el codigo del videojuego que quieres eliminar");
+                        codigo = in.nextLine();
+                        for (int i = 0; i <= contadorVideoJuegos - 1; i++) {
+                            if (codigoVideoJuego[i].equalsIgnoreCase(codigo)) {
+                                indiceEncontrado = i;
+                                break;
+                            }
+                        }
+
+                        if (indiceEncontrado == -1) {
+                            System.out.println("No existe un videojuego con ese ID");
+                        } else {
+                            for (int i = indiceEncontrado; i <= contadorVideoJuegos - 1; i++) {
+                                nombreVideoJuego[i] = nombreVideoJuego[i + 1];
+                                codigoVideoJuego[i] = codigoVideoJuego[i + 1];
+                            }
+
+                            contadorVideoJuegos = contadorVideoJuegos - 1;
+
                         }
                     }
-
-
-                    contadorVideoJuegos --;
-                    System.out.println("Juego eliminado exitosamente");
 
                     break;
 
